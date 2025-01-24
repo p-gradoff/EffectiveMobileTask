@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4B9021AC253DF06732A2C3D9 /* libPods-EffectiveMobileTaskTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6588E78BB8B7A6709269349F /* libPods-EffectiveMobileTaskTests.a */; };
+		9C4F337C56A8D0D72340C985 /* libPods-EffectiveMobileTask-EffectiveMobileTaskUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 144CC64289EBC4D4EB75D6BC /* libPods-EffectiveMobileTask-EffectiveMobileTaskUITests.a */; };
+		9D6A1E749B07D1B102D962E0 /* libPods-EffectiveMobileTask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C62C612D4D3DEC30AD8238 /* libPods-EffectiveMobileTask.a */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		374AF51E2D4328EC00A55FFE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,9 +30,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0DABAE4FA14C07A8BE1AF4AC /* Pods-EffectiveMobileTaskTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EffectiveMobileTaskTests.release.xcconfig"; path = "Target Support Files/Pods-EffectiveMobileTaskTests/Pods-EffectiveMobileTaskTests.release.xcconfig"; sourceTree = "<group>"; };
+		144CC64289EBC4D4EB75D6BC /* libPods-EffectiveMobileTask-EffectiveMobileTaskUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EffectiveMobileTask-EffectiveMobileTaskUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		374AF5042D4328EB00A55FFE /* EffectiveMobileTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EffectiveMobileTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		374AF51D2D4328EC00A55FFE /* EffectiveMobileTaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EffectiveMobileTaskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		374AF5272D4328EC00A55FFE /* EffectiveMobileTaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EffectiveMobileTaskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		42E23B078AE44FF0277C6A59 /* Pods-EffectiveMobileTaskTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EffectiveMobileTaskTests.debug.xcconfig"; path = "Target Support Files/Pods-EffectiveMobileTaskTests/Pods-EffectiveMobileTaskTests.debug.xcconfig"; sourceTree = "<group>"; };
+		48E8174DF90C663E82745F18 /* Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.release.xcconfig"; path = "Target Support Files/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4DDAF3F736A16CF2F7C69A5E /* Pods-EffectiveMobileTask.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EffectiveMobileTask.release.xcconfig"; path = "Target Support Files/Pods-EffectiveMobileTask/Pods-EffectiveMobileTask.release.xcconfig"; sourceTree = "<group>"; };
+		63C62C612D4D3DEC30AD8238 /* libPods-EffectiveMobileTask.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EffectiveMobileTask.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6588E78BB8B7A6709269349F /* libPods-EffectiveMobileTaskTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EffectiveMobileTaskTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB33332D09006922FD1C5F1C /* Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.debug.xcconfig"; path = "Target Support Files/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F3703D4A4EB686DAE6E8D73D /* Pods-EffectiveMobileTask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EffectiveMobileTask.debug.xcconfig"; path = "Target Support Files/Pods-EffectiveMobileTask/Pods-EffectiveMobileTask.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -65,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D6A1E749B07D1B102D962E0 /* libPods-EffectiveMobileTask.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B9021AC253DF06732A2C3D9 /* libPods-EffectiveMobileTaskTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C4F337C56A8D0D72340C985 /* libPods-EffectiveMobileTask-EffectiveMobileTaskUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +110,8 @@
 				374AF5202D4328EC00A55FFE /* EffectiveMobileTaskTests */,
 				374AF52A2D4328EC00A55FFE /* EffectiveMobileTaskUITests */,
 				374AF5052D4328EB00A55FFE /* Products */,
+				9FCBE2D75A3FACFD0B6B2C75 /* Pods */,
+				46D40C1F6D644E72958F23FE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +125,29 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		46D40C1F6D644E72958F23FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				63C62C612D4D3DEC30AD8238 /* libPods-EffectiveMobileTask.a */,
+				144CC64289EBC4D4EB75D6BC /* libPods-EffectiveMobileTask-EffectiveMobileTaskUITests.a */,
+				6588E78BB8B7A6709269349F /* libPods-EffectiveMobileTaskTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9FCBE2D75A3FACFD0B6B2C75 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F3703D4A4EB686DAE6E8D73D /* Pods-EffectiveMobileTask.debug.xcconfig */,
+				4DDAF3F736A16CF2F7C69A5E /* Pods-EffectiveMobileTask.release.xcconfig */,
+				AB33332D09006922FD1C5F1C /* Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.debug.xcconfig */,
+				48E8174DF90C663E82745F18 /* Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.release.xcconfig */,
+				42E23B078AE44FF0277C6A59 /* Pods-EffectiveMobileTaskTests.debug.xcconfig */,
+				0DABAE4FA14C07A8BE1AF4AC /* Pods-EffectiveMobileTaskTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -112,9 +155,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 374AF5302D4328EC00A55FFE /* Build configuration list for PBXNativeTarget "EffectiveMobileTask" */;
 			buildPhases = (
+				3245AE9D080DE74C4288CE99 /* [CP] Check Pods Manifest.lock */,
 				374AF5002D4328EB00A55FFE /* Sources */,
 				374AF5012D4328EB00A55FFE /* Frameworks */,
 				374AF5022D4328EB00A55FFE /* Resources */,
+				784BCD7C4BBF5FEFADD9196F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -124,8 +169,6 @@
 				374AF5062D4328EB00A55FFE /* EffectiveMobileTask */,
 			);
 			name = EffectiveMobileTask;
-			packageProductDependencies = (
-			);
 			productName = EffectiveMobileTask;
 			productReference = 374AF5042D4328EB00A55FFE /* EffectiveMobileTask.app */;
 			productType = "com.apple.product-type.application";
@@ -134,6 +177,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 374AF5352D4328EC00A55FFE /* Build configuration list for PBXNativeTarget "EffectiveMobileTaskTests" */;
 			buildPhases = (
+				2BAAEE24FF786EF042C2229C /* [CP] Check Pods Manifest.lock */,
 				374AF5192D4328EC00A55FFE /* Sources */,
 				374AF51A2D4328EC00A55FFE /* Frameworks */,
 				374AF51B2D4328EC00A55FFE /* Resources */,
@@ -147,8 +191,6 @@
 				374AF5202D4328EC00A55FFE /* EffectiveMobileTaskTests */,
 			);
 			name = EffectiveMobileTaskTests;
-			packageProductDependencies = (
-			);
 			productName = EffectiveMobileTaskTests;
 			productReference = 374AF51D2D4328EC00A55FFE /* EffectiveMobileTaskTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -157,9 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 374AF5382D4328EC00A55FFE /* Build configuration list for PBXNativeTarget "EffectiveMobileTaskUITests" */;
 			buildPhases = (
+				B12213990C6F610A7093D0FF /* [CP] Check Pods Manifest.lock */,
 				374AF5232D4328EC00A55FFE /* Sources */,
 				374AF5242D4328EC00A55FFE /* Frameworks */,
 				374AF5252D4328EC00A55FFE /* Resources */,
+				10623ED40A196779B3D2D3E0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,8 +214,6 @@
 				374AF52A2D4328EC00A55FFE /* EffectiveMobileTaskUITests */,
 			);
 			name = EffectiveMobileTaskUITests;
-			packageProductDependencies = (
-			);
 			productName = EffectiveMobileTaskUITests;
 			productReference = 374AF5272D4328EC00A55FFE /* EffectiveMobileTaskUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -244,6 +286,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		10623ED40A196779B3D2D3E0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2BAAEE24FF786EF042C2229C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EffectiveMobileTaskTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3245AE9D080DE74C4288CE99 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EffectiveMobileTask-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		784BCD7C4BBF5FEFADD9196F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EffectiveMobileTask/Pods-EffectiveMobileTask-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EffectiveMobileTask/Pods-EffectiveMobileTask-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EffectiveMobileTask/Pods-EffectiveMobileTask-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B12213990C6F610A7093D0FF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EffectiveMobileTask-EffectiveMobileTaskUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		374AF5002D4328EB00A55FFE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -284,17 +429,18 @@
 /* Begin XCBuildConfiguration section */
 		374AF5312D4328EC00A55FFE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3703D4A4EB686DAE6E8D73D /* Pods-EffectiveMobileTask.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T3Y57V3BSA;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EffectiveMobileTask/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -312,17 +458,18 @@
 		};
 		374AF5322D4328EC00A55FFE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DDAF3F736A16CF2F7C69A5E /* Pods-EffectiveMobileTask.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T3Y57V3BSA;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EffectiveMobileTask/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -459,6 +606,7 @@
 		};
 		374AF5362D4328EC00A55FFE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 42E23B078AE44FF0277C6A59 /* Pods-EffectiveMobileTaskTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -478,6 +626,7 @@
 		};
 		374AF5372D4328EC00A55FFE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0DABAE4FA14C07A8BE1AF4AC /* Pods-EffectiveMobileTaskTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -497,6 +646,7 @@
 		};
 		374AF5392D4328EC00A55FFE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB33332D09006922FD1C5F1C /* Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -514,6 +664,7 @@
 		};
 		374AF53A2D4328EC00A55FFE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48E8174DF90C663E82745F18 /* Pods-EffectiveMobileTask-EffectiveMobileTaskUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
