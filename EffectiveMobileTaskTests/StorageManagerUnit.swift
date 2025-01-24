@@ -1,5 +1,5 @@
 //
-//  EffectiveMobileTaskTests.swift
+//  StorageManagerUnit.swift
 //  EffectiveMobileTaskTests
 //
 //  Created by Павел Градов on 24.01.2025.
@@ -8,15 +8,20 @@
 import XCTest
 @testable import EffectiveMobileTask
 
-final class EffectiveMobileTaskTests: XCTestCase {
+final class StorageManagerUnit: XCTestCase {
+    var sut: StorageManager!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        sut = StorageManager.shared
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut = nil
+        try super.tearDownWithError()
     }
+    
+    
 
     func testExample() throws {
         // This is an example of a functional test case.
