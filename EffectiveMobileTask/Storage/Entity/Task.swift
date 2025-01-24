@@ -9,20 +9,18 @@ import Foundation
 import CoreData
 
 @objc(Task)
-public class Task: NSManagedObject {
-
-}
-
-extension Task {
-
-    @NSManaged public var title: String?
-    @NSManaged public var creationDate: String?
-    @NSManaged public var id: Int64
+public class Task: NSManagedObject, Identifiable {
+    @NSManaged public var title: String
+    @NSManaged public var creationDate: String
+    @NSManaged public var id: Int
     @NSManaged public var completionStatus: Bool
-    @NSManaged public var content: String?
-
-}
-
-extension Task : Identifiable {
-
+    @NSManaged public var content: String
+    
+    func setupTask(id: Int, title: String = "Task header", creationDate: String, content: String, completionStatus: Bool) {
+        self.id = id
+        self.title = title
+        self.creationDate = creationDate
+        self.content = content
+        self.completionStatus = completionStatus
+    }
 }
