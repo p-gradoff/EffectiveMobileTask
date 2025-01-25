@@ -13,7 +13,7 @@ protocol NetworkOutput: AnyObject {
 
 // MARK: - network errors
 enum NetworkError: Error {
-    case networkError
+    case urlError
     case responseError
     case serverError
     case dataError
@@ -23,7 +23,7 @@ enum NetworkError: Error {
 extension NetworkError {
     var message: String {
         switch self {
-        case .networkError: return "Network error description"
+        case .urlError: return "Unexpected Error while URL forming"
         case .responseError: return "Response error description"
         case .serverError: return "Server error description"
         case .dataError: return "Data error description"
@@ -32,34 +32,62 @@ extension NetworkError {
     }
 }
 
+struct NetworkConfig {
+    static var baseURLString: String = "https://dummyjson.com/todos"
+    static var httpMethod: String = "GET"
+    static var valueType: String = "application/json"
+    static var contentType: String = "Content-Type"
+}
+
+protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+
 final class NetworkManager: NetworkOutput {
-    // MARK: - based url
-    private let baseURL: URL = URL(string: "https://dummyjson.com/todos")!
+    // MARK: - private properties
+    private let urlSession: URLSession
+    
+    // MARK: - initialization
+    init(urlSession: URLSession) {
+        self.urlSession = urlSession
+    }
+    
+    func formURL(from urlString: String) -> URL? {
+        guard let url = URL(string: urlString) else {
+            return nil
+        }
+        return url
+    }
     
     // MARK: - form request
-    private func formRequest() -> URLRequest {
-        var request = URLRequest(url: baseURL)
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    func formRequest(by url: URL) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = NetworkConfig.httpMethod
+        request.setValue(NetworkConfig.valueType, forHTTPHeaderField: NetworkConfig.contentType)
         return request
     }
     
     // MARK: - do request
     func doRequest(_ completion: @escaping (Result<RawTaskList, NetworkError>) -> Void) {
-        let request = formRequest()
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        guard let url = formURL(from: NetworkConfig.baseURLString) else {
+            completion(.failure(.urlError))
+            return
+        }
+        let request = formRequest(by: url)
+        
+        urlSession.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                completion(.failure(NetworkError.serverError))
+                completion(.failure(.serverError))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.isSuccess() else {
-                completion(.failure(NetworkError.responseError))
+                completion(.failure(.responseError))
                 return
             }
             
-            guard let data = data else {
-                completion(.failure(NetworkError.dataError))
+            guard let data = data, !data.isEmpty else {
+                completion(.failure(.dataError))
                 return
             }
             
@@ -67,7 +95,7 @@ final class NetworkManager: NetworkOutput {
                 let rawData = try JSONDecoder().decode(RawTaskList.self, from: data)
                 completion(.success(rawData))
             } catch {
-                completion(.failure(NetworkError.parsingError))
+                completion(.failure(.parsingError))
             }
         }.resume()
     }
