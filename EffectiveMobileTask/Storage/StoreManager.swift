@@ -110,10 +110,7 @@ final class StoreManager {
             
             do {
                 guard let task = (try backgroundContext.fetch(fetchRequest)).first else {
-                    DispatchQueue.main.async {
-                        completion(.failure(.taskNotFound))
-                    }
-                    return
+                    throw CoreDataError.taskNotFound
                 }
                 
                 DispatchQueue.main.async {
@@ -121,7 +118,7 @@ final class StoreManager {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    completion(.failure(.fetchError))
+                    completion(.failure(.taskNotFound))
                 }
             }
         }
@@ -151,7 +148,7 @@ final class StoreManager {
     }
     
     // MARK: - update task data and save
-    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void)) {
+    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void)) {
         backgroundContext.perform { [weak self] in
             guard let self = self else { return }
             
@@ -177,7 +174,7 @@ final class StoreManager {
                 
                 try backgroundContext.save()
                 DispatchQueue.main.async {
-                    completion(.success(()))
+                    completion(.success(task))
                 }
             } catch {
                 backgroundContext.rollback()
@@ -207,6 +204,9 @@ final class StoreManager {
                 backgroundContext.delete(task)
                 
                 try backgroundContext.save()
+                DispatchQueue.main.async {
+                    completion(.success(()))
+                }
             } catch {
                 backgroundContext.rollback()
                 DispatchQueue.main.async {
