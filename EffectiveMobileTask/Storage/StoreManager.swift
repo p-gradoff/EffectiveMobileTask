@@ -1,8 +1,8 @@
 //
-//  StorageManager.swift
+//  StoreManager.swift
 //  EffectiveMobileTask
 //
-//  Created by Павел Градов on 24.01.2025.
+//  Created by Павел Градов on 26.01.2025.
 //
 
 import Foundation
@@ -39,47 +39,60 @@ enum CoreDataError: Error {
     case removeError
 }
 
-// MARK: - CoreData manager that controls access to the storage
-final class StorageManager {
-    // MARK: - singletone
-    static let shared = StorageManager()
-    private init() { }
+
+final class StoreManager {
+    let backgroundContext: NSManagedObjectContext
+    let mainContext: NSManagedObjectContext
     
-    private let persistentContainer: NSPersistentContainer = {
-        $0.loadPersistentStores { description, error in
-            if error != nil { print("CoreData initialization error: \(error!.localizedDescription)") }
+    init(backgroundContext: NSManagedObjectContext, mainContext: NSManagedObjectContext) {
+        self.backgroundContext = backgroundContext
+        self.mainContext = mainContext
+    }
+    
+    func formFetchRequest(by taskID: Int) -> NSFetchRequest<Task> {
+        let fetchRequest = NSFetchRequest<Task>(entityName: TaskParameter.name.value)
+        fetchRequest.predicate = NSPredicate(format: "\(TaskParameter.id.value) == %d", taskID)
+        fetchRequest.fetchLimit = 1
+        return fetchRequest
+    }
+    
+    func formEntityDescription(_ entityName: String, context: NSManagedObjectContext) -> NSEntityDescription? {
+        guard let entityDescription = NSEntityDescription.entity(
+            forEntityName: entityName,
+            in: context
+        ) else {
+            return nil
         }
-        return $0
-    }(NSPersistentContainer(name: TaskParameter.name.value))
+        return entityDescription
+    }
     
     // MARK: - new task creation
     func createTask(
+        taskDescription: NSEntityDescription?,
         with id: Int,
         creationDate: String,
         content: String,
         completionStatus: Bool,
         completion: ((Result<Void, CoreDataError>) -> Void)? = nil
     ) {
-        persistentContainer.performBackgroundTask { (context) in
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
             do {
-                guard let taskDescription = NSEntityDescription.entity(
-                    forEntityName: TaskParameter.name.value,
-                    in: context
-                ) else {
+                guard let taskDescription, id >= 0 else {
                     throw CoreDataError.creationError
                 }
                 
-                let task = Task(entity: taskDescription, insertInto: context)
+                let task = Task(entity: taskDescription, insertInto: backgroundContext)
                 task.setupTask(id: id, creationDate: creationDate, content: content, completionStatus: completionStatus
                 )
                 
-                try context.save()
+                try backgroundContext.save()
                 
                 DispatchQueue.main.async {
                     completion?(.success(()))
                 }
             } catch {
-                context.rollback()
+                backgroundContext.rollback()
                 
                 DispatchQueue.main.async {
                     completion?(.failure(.creationError))
@@ -90,18 +103,19 @@ final class StorageManager {
     
     // MARK: - fetch the task by id
     func fetchTask(by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void)) {
-        persistentContainer.performBackgroundTask { (context) in
-            let fetchRequest = NSFetchRequest<Task>(entityName: TaskParameter.name.value)
-            let predicate = NSPredicate(format: "\(TaskParameter.id.value) == %d", id)
-            fetchRequest.predicate = predicate
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
+            
+            let fetchRequest = formFetchRequest(by: id)
             
             do {
-                guard let task = (try context.fetch(fetchRequest)).first else {
+                guard let task = (try backgroundContext.fetch(fetchRequest)).first else {
                     DispatchQueue.main.async {
                         completion(.failure(.taskNotFound))
                     }
                     return
                 }
+                
                 DispatchQueue.main.async {
                     completion(.success(task))
                 }
@@ -115,14 +129,16 @@ final class StorageManager {
     
     // MARK: - fetch task list and sort it by creation date
     func fetchTaskList(completion: @escaping ((Result<[Task], CoreDataError>) -> Void)) {
-        persistentContainer.performBackgroundTask { (context) in
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
+            
             do {
                 let fetchRequest = NSFetchRequest<Task>(entityName: TaskParameter.name.value)
                 let idSortDescriptor = NSSortDescriptor(key: TaskParameter.id.value, ascending: false)
                 let creationDateSortDescriptor = NSSortDescriptor(key: TaskParameter.creationDate.value, ascending: false)
                 fetchRequest.sortDescriptors = [creationDateSortDescriptor, idSortDescriptor]
                 
-                let taskList = try context.fetch(fetchRequest)
+                let taskList = try backgroundContext.fetch(fetchRequest)
                 DispatchQueue.main.async {
                     completion(.success(taskList))
                 }
@@ -136,20 +152,15 @@ final class StorageManager {
     
     // MARK: - update task data and save
     func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void)) {
-        persistentContainer.performBackgroundTask { [weak self] (context) in
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
+            
+            let fetchRequest = formFetchRequest(by: id)
+            
             do {
-                var taskToChange: Task?
-                guard let self = self else { return }
-                fetchTask(by: id, completion: { result in
-                    switch result {
-                    case .success(let task):
-                        taskToChange = task
-                    case .failure:
-                        taskToChange = nil
-                    }
-                })
+                let tasks = try backgroundContext.fetch(fetchRequest)
                 
-                guard let task = taskToChange else {
+                guard let task = tasks.first else {
                     DispatchQueue.main.async {
                         completion(.failure(.taskNotFound))
                     }
@@ -163,9 +174,13 @@ final class StorageManager {
                     task.title = title
                     task.content = content
                 }
-                try context.save()
+                
+                try backgroundContext.save()
+                DispatchQueue.main.async {
+                    completion(.success(()))
+                }
             } catch {
-                context.rollback()
+                backgroundContext.rollback()
                 DispatchQueue.main.async {
                     completion(.failure(.updateError))
                 }
@@ -175,30 +190,25 @@ final class StorageManager {
     
     // MARK: - remove task by id
     func removeTask(by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void)) {
-        persistentContainer.performBackgroundTask { [weak self] (context) in
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
+            
+            let fetchRequest = formFetchRequest(by: id)
+            
             do {
-                var taskToRemove: Task?
-                guard let self = self else { return }
-                fetchTask(by: id, completion: { result in
-                    switch result {
-                    case .success(let task):
-                        taskToRemove = task
-                    case .failure:
-                        taskToRemove = nil
-                    }
-                })
-                
-                guard let task = taskToRemove else {
+                let tasks = try backgroundContext.fetch(fetchRequest)
+                guard let task = tasks.first else {
                     DispatchQueue.main.async {
                         completion(.failure(.taskNotFound))
                     }
                     return
                 }
                 
-                context.delete(task)
-                try context.save()
+                backgroundContext.delete(task)
+                
+                try backgroundContext.save()
             } catch {
-                context.rollback()
+                backgroundContext.rollback()
                 DispatchQueue.main.async {
                     completion(.failure(.removeError))
                 }

@@ -36,6 +36,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		373F89E92D46244A0003CD20 /* Exceptions for "EffectiveMobileTask" folder in "EffectiveMobileTaskTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				EffectiveMobileTask.xcdatamodeld,
+			);
+			target = 374AF51C2D4328EC00A55FFE /* EffectiveMobileTaskTests */;
+		};
 		374AF52F2D4328EC00A55FFE /* Exceptions for "EffectiveMobileTask" folder in "EffectiveMobileTask" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -50,6 +57,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				374AF52F2D4328EC00A55FFE /* Exceptions for "EffectiveMobileTask" folder in "EffectiveMobileTask" target */,
+				373F89E92D46244A0003CD20 /* Exceptions for "EffectiveMobileTask" folder in "EffectiveMobileTaskTests" target */,
 			);
 			path = EffectiveMobileTask;
 			sourceTree = "<group>";

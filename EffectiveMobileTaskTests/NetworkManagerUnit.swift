@@ -55,7 +55,7 @@ final class NetworkManagerUnit: XCTestCase {
         // prepare network config
         let networkManager = NetworkManager(urlSession: mockSession)
         let url = networkManager.formURL(from: NetworkConfig.baseURLString)!
-        let expectation = XCTestExpectation(description: "Network request")
+        let expectation = XCTestExpectation(description: "Success Network request")
         
         // mock data setup
         URLProtocolMock.mockURLs[url] = (
