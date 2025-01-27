@@ -8,13 +8,19 @@
 import Foundation
 import CoreData
 
+// MARK: - manages StoreManager contexts
 final class CoreDataManager {
+    
+    // MARK: - singletone
     static let shared = CoreDataManager()
     
+    // MARK: - properties
     let persistantContainer: NSPersistentContainer
     let backgroundContext: NSManagedObjectContext
     let mainContext: NSManagedObjectContext
     
+    
+    // MARK: - init
     private init() {
         persistantContainer = NSPersistentContainer(name: "EffectiveMobileTask")
         let description = persistantContainer.persistentStoreDescriptions.first

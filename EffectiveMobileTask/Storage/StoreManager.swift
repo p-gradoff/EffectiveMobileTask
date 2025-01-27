@@ -14,7 +14,7 @@ enum TaskChange {
     case content(title: String, content: String)
 }
 
-// MARK: - This enum allows to receive data in filtered form
+// MARK: - allows to receive data in filtered form
 enum TaskParameter {
     case name
     case creationDate
@@ -31,6 +31,7 @@ extension TaskParameter {
     }
 }
 
+// MARK: - possible coreData error
 enum CoreDataError: Error {
     case creationError
     case fetchError
@@ -39,16 +40,20 @@ enum CoreDataError: Error {
     case removeError
 }
 
-
+// MARK: - manages all CRUD operations
 final class StoreManager {
+    
+    // MARK: - properties
     let backgroundContext: NSManagedObjectContext
     let mainContext: NSManagedObjectContext
     
+    // MARK: - init
     init(backgroundContext: NSManagedObjectContext, mainContext: NSManagedObjectContext) {
         self.backgroundContext = backgroundContext
         self.mainContext = mainContext
     }
     
+    // MARK: - form fetch request by ID
     func formFetchRequest(by taskID: Int) -> NSFetchRequest<Task> {
         let fetchRequest = NSFetchRequest<Task>(entityName: TaskParameter.name.value)
         fetchRequest.predicate = NSPredicate(format: "\(TaskParameter.id.value) == %d", taskID)
@@ -56,6 +61,7 @@ final class StoreManager {
         return fetchRequest
     }
     
+    // MARK: - form coreData entity description
     func formEntityDescription(_ entityName: String, context: NSManagedObjectContext) -> NSEntityDescription? {
         guard let entityDescription = NSEntityDescription.entity(
             forEntityName: entityName,
@@ -66,14 +72,14 @@ final class StoreManager {
         return entityDescription
     }
     
-    // MARK: - new task creation
+    // MARK: - CREATE new task
     func createTask(
         taskDescription: NSEntityDescription?,
         with id: Int,
         creationDate: String,
         content: String,
         completionStatus: Bool,
-        completion: ((Result<Void, CoreDataError>) -> Void)? = nil
+        completion: @escaping ((Result<Void, CoreDataError>) -> Void)
     ) {
         backgroundContext.perform { [weak self] in
             guard let self = self else { return }
@@ -89,19 +95,19 @@ final class StoreManager {
                 try backgroundContext.save()
                 
                 DispatchQueue.main.async {
-                    completion?(.success(()))
+                    completion(.success(()))
                 }
             } catch {
                 backgroundContext.rollback()
                 
                 DispatchQueue.main.async {
-                    completion?(.failure(.creationError))
+                    completion(.failure(.creationError))
                 }
             }
         }
     }
     
-    // MARK: - fetch the task by id
+    // MARK: - READ: fetch the task by id
     func fetchTask(by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void)) {
         backgroundContext.perform { [weak self] in
             guard let self = self else { return }
@@ -124,7 +130,7 @@ final class StoreManager {
         }
     }
     
-    // MARK: - fetch task list and sort it by creation date
+    // MARK: - READ: fetch task list and sort it by creation date
     func fetchTaskList(completion: @escaping ((Result<[Task], CoreDataError>) -> Void)) {
         backgroundContext.perform { [weak self] in
             guard let self = self else { return }
@@ -147,7 +153,7 @@ final class StoreManager {
         }
     }
     
-    // MARK: - update task data and save
+    // MARK: - UPDATE task data and save
     func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void)) {
         backgroundContext.perform { [weak self] in
             guard let self = self else { return }
@@ -185,7 +191,7 @@ final class StoreManager {
         }
     }
     
-    // MARK: - remove task by id
+    // MARK: - DELETE: remove task by id
     func removeTask(by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void)) {
         backgroundContext.perform { [weak self] in
             guard let self = self else { return }

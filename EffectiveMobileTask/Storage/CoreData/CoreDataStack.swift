@@ -8,12 +8,19 @@
 import Foundation
 import CoreData
 
+// MARK: - manages unit-testing contexts
 final class CoreDataStack {
+    
+    // MARK: - singletone
+    static let shared = CoreDataStack()
+    
+    // MARK: - properties
     let persistentContainer: NSPersistentContainer
     let backgroundContext: NSManagedObjectContext
     let mainContext: NSManagedObjectContext
     
-    init() {
+    // MARK: - init
+    private init() {
         persistentContainer = NSPersistentContainer(name: "EffectiveMobileTask")
         let description = persistentContainer.persistentStoreDescriptions.first
         description?.type = NSInMemoryStoreType
