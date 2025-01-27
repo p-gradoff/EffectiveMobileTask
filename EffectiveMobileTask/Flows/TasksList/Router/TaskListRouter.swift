@@ -14,11 +14,11 @@ protocol TaskListRouterInput: AnyObject {
 
 final class TaskListRouter: TaskListRouterInput {
     func openSelectedTaskCell(by id: Int) {
-        <#code#>
+        //
     }
     
     func openTaskEditor(by id: Int?) {
-        <#code#>
+        //
     }
     
     

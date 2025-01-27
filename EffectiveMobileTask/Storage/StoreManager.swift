@@ -40,6 +40,15 @@ enum CoreDataError: Error {
     case removeError
 }
 
+// MARK: - output funcs
+//protocol StoreManagerOutput: AnyObject {
+//    func createTask(taskDescription: NSEntityDescription?, with id: Int, creationDate: String, content: String, completionStatus: Bool, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
+//    func fetchTask(by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void))
+//    func fetchTaskList(completion: @escaping ((Result<[Task], CoreDataError>) -> Void))
+//    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void))
+//    func removeTask(by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
+//}
+
 // MARK: - manages all CRUD operations
 final class StoreManager {
     
@@ -215,6 +224,28 @@ final class StoreManager {
                 }
             } catch {
                 backgroundContext.rollback()
+                DispatchQueue.main.async {
+                    completion(.failure(.removeError))
+                }
+            }
+        }
+    }
+    
+    // MARK: - delete all tasks
+    func removeAllTasks(completion: @escaping (Result<Void, CoreDataError>) -> Void) {
+        backgroundContext.perform {
+            do {
+                let fetchRequest = NSFetchRequest<Task>(entityName: TaskParameter.name.value)
+                let tasksList = try self.backgroundContext.fetch(fetchRequest)
+                
+                tasksList.forEach { self.backgroundContext.delete($0) }
+                
+                try self.backgroundContext.save()
+                
+                DispatchQueue.main.async {
+                    completion(.success(()))
+                }
+            } catch {
                 DispatchQueue.main.async {
                     completion(.failure(.removeError))
                 }

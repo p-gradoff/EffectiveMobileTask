@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol NetworkOutput: AnyObject {
+// MARK: - output funcs
+protocol NetworkManagerOutput: AnyObject {
     func doRequest(_ completion: @escaping (Result<RawTaskList, NetworkError>) -> Void)
 }
 
@@ -20,6 +21,7 @@ enum NetworkError: Error {
     case parsingError
 }
 
+// MARK: - possible network errors
 extension NetworkError {
     var message: String {
         switch self {
@@ -32,6 +34,7 @@ extension NetworkError {
     }
 }
 
+// MARK: - network request config
 struct NetworkConfig {
     static var baseURLString: String = "https://dummyjson.com/todos"
     static var httpMethod: String = "GET"
@@ -39,11 +42,7 @@ struct NetworkConfig {
     static var contentType: String = "Content-Type"
 }
 
-protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
-}
-
-final class NetworkManager: NetworkOutput {
+final class NetworkManager: NetworkManagerOutput {
     // MARK: - private properties
     private let urlSession: URLSession
     

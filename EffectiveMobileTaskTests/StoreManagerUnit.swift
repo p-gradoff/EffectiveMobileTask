@@ -543,4 +543,53 @@ final class StoreManagerUnit: XCTestCase {
         
         wait(for: [expectation], timeout: 2.0)
     }
+    
+    // MARK: - create task and remove it using removeAll instrument
+    func testRemoveAllTasksSuccess() throws {
+        let expectation = XCTestExpectation(description: "Remove Task by wrong ID")
+        
+        // MARK: - prepare task and create it
+        let testEntityDescription = storeManager.formEntityDescription(TaskParameter.name.value, context: storeManager.backgroundContext)
+        let testTask = TestTask.getTestTask()
+        
+        storeManager.createTask(
+            taskDescription: testEntityDescription,
+            with: testTask.id,
+            creationDate: testTask.creationDate,
+            content: testTask.content,
+            completionStatus: testTask.completionStatus
+        ) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                storeManager.removeAllTasks { [weak self] removeResult in
+                    guard let self = self else { return }
+                    
+                    switch removeResult {
+                    case .success:
+                        storeManager.fetchTaskList { fetchResult in
+                            switch fetchResult {
+                            case .success(let taskList):
+                                // MARK: - verify task list is empty after task remove
+                                XCTAssert(taskList.isEmpty)
+                                expectation.fulfill()
+                            case .failure(let error):
+                                // MARK: - fetch task list failed
+                                XCTFail("Fetch Task list failed, got error: \(error)")
+                            }
+                        }
+                    case .failure(let error):
+                        // MARK: - all tasks removing failed
+                        XCTFail("Remove all tasks should succeed, got error \(error)")
+                    }
+                }
+            case .failure(let error):
+                // MARK: - task creation failed
+                XCTFail("Creation task should succeed, got error \(error)")
+            }
+        }
+        
+        wait(for: [expectation], timeout: 2.0)
+    }
 }
