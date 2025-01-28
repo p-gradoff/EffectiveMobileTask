@@ -39,7 +39,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - create a task and verify its creation
-    func testCreateTaskSuccess() throws {
+    func testCreateTask_Success() throws {
         let expectation = XCTestExpectation(description: "Success Task creation")
         
         // MARK: - prepare test task and create it
@@ -93,7 +93,7 @@ final class StoreManagerUnit: XCTestCase {
     }
 
     // MARK: - create task and try to set incorrect ID
-    func testCreateTaskWrongID() throws {
+    func testCreateTask_WrongID() throws {
         let expectation = XCTestExpectation(description: "Failure Task creation")
         
         // MARK: - prepare test task and create it
@@ -134,7 +134,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - try to create task with wrong entity description
-    func testCreateTaskWrongEntityDescription() throws {
+    func testCreateTask_WrongEntityDescription() throws {
         let expectation = XCTestExpectation(description: "Failue task creation")
         
         // MARK: - prepare test task and create it
@@ -174,7 +174,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - create 2 tasks and try to find certain task by ID
-    func testFetchTaskByIDSuccess() throws {
+    func testFetchTaskByID_Success() throws {
         let expectation = XCTestExpectation(description: "Fetch task by ID success")
         
         // MARK: - prepare 2 tasks
@@ -250,7 +250,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - try to get task by non-existent ID
-    func testFetchTaskByIDTaskNotFound() throws {
+    func testFetchTaskByID_TaskNotFound() throws {
         let expectation = XCTestExpectation(description: "Fetch task by ID but not found")
         
         // MARK: - prepare test task and create it
@@ -299,7 +299,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - create task and get task list
-    func testFetchTaskListSuccess() throws {
+    func testFetchTaskList_Success() throws {
         let expectation = XCTestExpectation(description: "Fetch task list success")
         
         // MARK: - prepare test task and create it
@@ -349,7 +349,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - create task and update data
-    func testUpdateTaskDataSuccess() throws {
+    func testUpdateTaskData_Success() throws {
         let expectation = XCTestExpectation(description: "Update task data success")
         
         // MARK: - prepare task and create it
@@ -408,7 +408,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - try to update task by incorrect ID
-    func testUpdateTestDataTaskNotFound() throws {
+    func testUpdateTestData_TaskNotFound() throws {
         let expectation = XCTestExpectation(description: "Update test data task not found")
         
         // MARK: - prepare task and create it
@@ -458,7 +458,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - create task and remove it
-    func testRemoveTaskSuccess() throws {
+    func testRemoveTask_Success() throws {
         let expectation = XCTestExpectation(description: "Remove Task Success")
         
         // MARK: - prepare task and create it
@@ -507,7 +507,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - try to remove task by ID
-    func testRemoveTaskWrongID() {
+    func testRemoveTask_WrongID() {
         let expectation = XCTestExpectation(description: "Remove Task by wrong ID")
         
         // MARK: - prepare task and create it
@@ -525,14 +525,25 @@ final class StoreManagerUnit: XCTestCase {
             
             switch result {
             case .success:
-                storeManager.removeTask(by: 2) { removeResult in
+                storeManager.removeTask(by: 2) { [weak self] removeResult in
+                    guard let self = self else { return }
+                    
                     switch removeResult {
                     case .success:
                         // MARK: - task removed by wrong ID
                         XCTFail("Remove Task by wrong ID should fail")
                     case .failure(let error):
                         XCTAssertEqual(error, .taskNotFound)
-                        expectation.fulfill()
+                    }
+                    
+                    // MARK: - remove task
+                    storeManager.removeTask(by: testTask.id) { removeResult in
+                        switch removeResult {
+                        case .success:
+                            expectation.fulfill()
+                        case .failure(let error):
+                            XCTFail("Remove task should succeed, got error: \(error)")
+                        }
                     }
                 }
             case .failure(let error):
@@ -545,7 +556,7 @@ final class StoreManagerUnit: XCTestCase {
     }
     
     // MARK: - create task and remove it using removeAll instrument
-    func testRemoveAllTasksSuccess() throws {
+    func testRemoveAllTasks_Success() throws {
         let expectation = XCTestExpectation(description: "Remove Task by wrong ID")
         
         // MARK: - prepare task and create it

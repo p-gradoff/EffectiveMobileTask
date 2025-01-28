@@ -7,25 +7,29 @@
 
 import Foundation
 
+// MARK: - interactor input
 protocol TaskListInteractorInput: AnyObject {
-    var output: TaskListViewOutput? { get }
+    var output: TaskListInteractorOutput? { get }
     func getTasksList()
-    func updateTaskCompletionStatus(by id: Int)
-    func removeTask(by id: Int)
+    func updateTaskCompletionStatus(by id: Int, completion: @escaping (Result<Void, CoreDataError>) -> Void)
+    func removeTask(by id: Int, completion: @escaping (Result<Void, CoreDataError>) -> Void)
 }
 
+// MARK: - interactor output
 protocol TaskListInteractorOutput: AnyObject {
     func sendError(withMessage: String, title: String)
     func send(_ tasksList: [Task])
 }
 
+// MARK: - manages requests between presenter, network manager and store manager
 final class TaskListInteractor {
+    
     // MARK: - output is presenter
     weak var output: TaskListInteractorOutput?
     
     // MARK: - private properties
     private let networkManager: NetworkManagerOutput
-    private let storeManager: StoreManager
+    private let storeManager: StoreManagerOutput
     private var isInitialLaunch: Bool {
         // MARK: - check if first program launch
         LaunchManager.isInitialLaunch()
@@ -33,13 +37,41 @@ final class TaskListInteractor {
     private var isLoading = false
     
     // MARK: - init
-    init(networkManager: NetworkManagerOutput, storeManager: StoreManager) {
+    init(networkManager: NetworkManagerOutput, storeManager: StoreManagerOutput) {
         self.networkManager = networkManager
         self.storeManager = storeManager
     }
     
+    // MARK: - private funcs-handlers
+    // MARK: - handles result and sends it or handles error
+    private func handleLoadResult(_ result: Result<[Task], CoreDataError>) {
+        switch result {
+        case .success(let tasksList):
+            output?.send(tasksList)
+        case .failure(let error):
+            handleError(error)
+        }
+    }
+    
+    // MARK: - manages errors and send them
+    private func handleError(_ error: Error) {
+        switch error {
+        case let error as CoreDataError:
+            output?.sendError(withMessage: error.localizedDescription, title: Errors.coreData.value)
+        case let error as NetworkError:
+            output?.sendError(withMessage: error.localizedDescription, title: Errors.network.value)
+        default:
+            output?.sendError(withMessage: error.localizedDescription, title: Errors.basic.value)
+        }
+    }
+}
+
+// MARK: - funcs to work with store and network managers
+extension TaskListInteractor {
+    
     // MARK: - send request to create Task entity and save it
     func saveLoadedTaskList(_ list: [RawTask], completion: @escaping (Result<Void, CoreDataError>) -> Void) {
+        
         // MARK: - using DispatcGroup to synchronize the result of asynchronous work
         let group = DispatchGroup()
         let queue = DispatchQueue(label: "saveTaskQueue")
@@ -93,28 +125,6 @@ final class TaskListInteractor {
         }
     }
     
-    // MARK: - handles result and sends it or handles error
-    private func handleLoadResult(_ result: Result<[Task], CoreDataError>) {
-        switch result {
-        case .success(let tasksList):
-            output?.send(tasksList)
-        case .failure(let error):
-            handleError(error)
-        }
-    }
-    
-    // MARK: - manages errors and send them
-    private func handleError(_ error: Error) {
-        switch error {
-        case let error as CoreDataError:
-            output?.sendError(withMessage: error.localizedDescription, title: Errors.coreData.value)
-        case let error as NetworkError:
-            output?.sendError(withMessage: error.localizedDescription, title: Errors.network.value)
-        default:
-            output?.sendError(withMessage: error.localizedDescription, title: Errors.basic.value)
-        }
-    }
-    
     // MARK: - send request to network manager to download raw tasks list
     func downloadRawTasksList(completion: @escaping (Result<RawTaskList, NetworkError>) -> Void) {
         networkManager.doRequest { result in
@@ -129,16 +139,19 @@ final class TaskListInteractor {
     
     // MARK: - download tasks from internet, save them and send
     func downloadAndProcessTasks() {
+        // MARK: - download raw tasks list
         downloadRawTasksList { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let rawTasksList):
+                // MARK: - save loaded tasks list
                 saveLoadedTaskList(rawTasksList.todos) { [weak self] result in
                     guard let self = self else { return }
                     
                     switch result {
                     case .success:
+                        // MARK: load tasks list from storage
                         self.loadTasksListFromStorage { [weak self] result in
                             guard let self = self else { return }
                             
@@ -153,6 +166,10 @@ final class TaskListInteractor {
             }
         }
     }
+}
+
+// MARK: - input funcs
+extension TaskListInteractor: TaskListInteractorInput {
     
     // MARK: - check initial launch and load tasks from storage or from internet
     func getTasksList() {

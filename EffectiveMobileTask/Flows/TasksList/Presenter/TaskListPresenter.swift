@@ -34,12 +34,30 @@ extension TaskListPresenter: TaskListViewOutput {
     
     // MARK: - send request to interactor update task completion status
     func changeTaskCompletionStatus(by id: Int) {
-        interactor.updateTaskCompletionStatus(by: id)
+        interactor.updateTaskCompletionStatus(by: id) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                sendError(withMessage: error.localizedDescription, title: Errors.coreData.value)
+            }
+        }
     }
     
     // MARK: - send request to interactor to remove task by ID
     func removeTask(by id: Int) {
-        interactor.removeTask(by: id)
+        interactor.removeTask(by: id) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                sendError(withMessage: error.localizedDescription, title: Errors.coreData.value)
+            }
+        }
     }
     
     // MARK: - Router requests
@@ -56,5 +74,15 @@ extension TaskListPresenter: TaskListViewOutput {
     // MARK: - send request to router to open task editor
     func openTaskEditor(by id: Int) {
         router.openTaskEditor(by: id)
+    }
+}
+
+extension TaskListPresenter: TaskListInteractorOutput {
+    func sendError(withMessage: String, title: String) {
+        //
+    }
+    
+    func send(_ tasksList: [Task]) {
+        view.setTableData(with: tasksList)
     }
 }

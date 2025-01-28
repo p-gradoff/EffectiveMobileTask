@@ -45,7 +45,7 @@ class URLProtocolMock: URLProtocol {
 final class NetworkManagerUnit: XCTestCase {
     
     // MARK: - do success network session
-    func testNetworkSuccessSession() throws {
+    func testNetwork_SuccessSession() throws {
         
         // MARK: - setup URLSession configuration
         let configuration = URLSessionConfiguration.ephemeral
@@ -87,7 +87,7 @@ final class NetworkManagerUnit: XCTestCase {
     }
     
     // MARK: - try to do network request by wrong URL
-    func testNetworkURLError() throws {
+    func testNetwork_URLError() throws {
         
         // MARK: - prepare network config
         NetworkConfig.baseURLString = ""
@@ -109,7 +109,7 @@ final class NetworkManagerUnit: XCTestCase {
     }
     
     // MARK: - try to get response with server error
-    func testNetworkServerError() throws {
+    func testNetwork_ServerError() throws {
         
         // MARK: - prepare URL Session configuration
         let configuration = URLSessionConfiguration.ephemeral
@@ -143,7 +143,7 @@ final class NetworkManagerUnit: XCTestCase {
     }
     
     // MARK: - try to get response with status code 500
-    func testNetworkResponseError() throws {
+    func testNetwork_ResponseError() throws {
         
         // MARK: - prepare URL Session configuration
         let configuration = URLSessionConfiguration.ephemeral
@@ -177,7 +177,7 @@ final class NetworkManagerUnit: XCTestCase {
     }
     
     // MARK: - try to get empty data response
-    func testNetworkDataError() throws {
+    func testNetwork_DataError() throws {
         
         // MARK: - prepare URL Session configuration
         let configuration = URLSessionConfiguration.ephemeral
@@ -211,7 +211,7 @@ final class NetworkManagerUnit: XCTestCase {
     }
     
     // MARK: - try to parse data with incorrect data
-    func testNetworkParsingError() throws {
+    func testNetwork_ParsingError() throws {
         
         // MARK: - prepare URL Session configuration
         let configuration = URLSessionConfiguration.ephemeral

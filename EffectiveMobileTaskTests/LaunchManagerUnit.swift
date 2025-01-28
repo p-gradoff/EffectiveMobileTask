@@ -14,18 +14,18 @@ final class LaunchManagerUnit: XCTestCase {
         UserDefaults.standard.removeObject(forKey: LaunchManager.initialLaunchKey)
     }
 
-    func testInitialLaunch() throws {
+    func testLaunch_Initial() throws {
         let isInitialLaunch = LaunchManager.isInitialLaunch()
         XCTAssertTrue(isInitialLaunch, "Initial Launch")
     }
 
-    func testSubsequentLaunch() throws {
+    func testLaunch_Subsequent() throws {
         let _ = LaunchManager.isInitialLaunch()
         let isInitialLaunch = LaunchManager.isInitialLaunch()
         XCTAssertFalse(isInitialLaunch, "Subsequent Launch")
     }
     
-    func testInitialLauncheSavesUserDefaultsFlag() throws {
+    func testLaunch_InitialSavesUserDefaultsFlag() throws {
         let _ = LaunchManager.isInitialLaunch()
         let savedValue = UserDefaults.standard.object(forKey: LaunchManager.initialLaunchKey)
         XCTAssertNotNil(savedValue, "Saved UserDefaults flag")

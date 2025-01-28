@@ -42,7 +42,7 @@ struct NetworkConfig {
     static var contentType: String = "Content-Type"
 }
 
-final class NetworkManager: NetworkManagerOutput {
+class NetworkManager: NetworkManagerOutput {
     // MARK: - private properties
     private let urlSession: URLSession
     

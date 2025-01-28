@@ -11,6 +11,7 @@ import UIKit
 protocol TaskListViewInput: AnyObject {
     var output: TaskListViewOutput? { get set }
     func setTableData(with data: [Task])
+    func presentAlertController(with message: String, title: String)
 }
 
 // MARK: - output funcs
@@ -248,8 +249,13 @@ extension TaskListView: UITableViewDataSource, UITableViewDelegate, TaskTableVie
     }
 }
 
-// MARK: - methods that allows the view to get information
-extension TaskListView: TaskListViewInput {
+// MARK: - send view the information and present alert
+extension TaskListView: TaskListViewInput, AlertProtocol {
+    func presentAlertController(with message: String, title: String) {
+        let controller = getAlertController(with: message, title: title)
+        self.present(controller, animated: true)
+    }
+    
     func setTableData(with data: [Task]) {
         tableData = data
         tableView.reloadData()

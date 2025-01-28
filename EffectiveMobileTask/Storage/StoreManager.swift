@@ -21,6 +21,7 @@ enum TaskParameter {
     case id
 }
 
+// MARK: - task parameters for fetching
 extension TaskParameter {
     var value: String {
         switch self {
@@ -40,17 +41,19 @@ enum CoreDataError: Error {
     case removeError
 }
 
-// MARK: - output funcs
-//protocol StoreManagerOutput: AnyObject {
-//    func createTask(taskDescription: NSEntityDescription?, with id: Int, creationDate: String, content: String, completionStatus: Bool, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
-//    func fetchTask(by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void))
-//    func fetchTaskList(completion: @escaping ((Result<[Task], CoreDataError>) -> Void))
-//    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void))
-//    func removeTask(by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
-//}
+// MARK: - store manager output
+protocol StoreManagerOutput: AnyObject {
+    var backgroundContext: NSManagedObjectContext { get }
+    func formEntityDescription(_ entityName: String, context: NSManagedObjectContext) -> NSEntityDescription?
+    func createTask(taskDescription: NSEntityDescription?, with id: Int, creationDate: String, content: String, completionStatus: Bool, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
+    func fetchTask(by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void))
+    func fetchTaskList(completion: @escaping ((Result<[Task], CoreDataError>) -> Void))
+    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void))
+    func removeTask(by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
+}
 
 // MARK: - manages all CRUD operations
-final class StoreManager {
+class StoreManager: StoreManagerOutput {
     
     // MARK: - properties
     let backgroundContext: NSManagedObjectContext

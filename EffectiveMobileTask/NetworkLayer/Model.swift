@@ -15,8 +15,12 @@ struct RawTaskList: Codable {
 }
 
 struct RawTask: Codable {
-    let id: Int
+    var id: Int
     let todo: String
     let completed: Bool
-    let userId: Int
+    var userId: Int
+    
+    static func getRawTask() -> RawTask {
+        RawTask(id: 1, todo: "Test text", completed: true, userId: 1)
+    }
 }
