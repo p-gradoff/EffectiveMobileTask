@@ -8,14 +8,14 @@
 import UIKit
 
 // MARK: - input funcs
-protocol TaskListViewInput: AnyObject {
-    var output: TaskListViewOutput? { get set }
+protocol TasksListViewInput: AnyObject {
+    var output: TasksListViewOutput? { get set }
     func setTableData(with data: [Task])
-    func presentAlertController(with message: String, title: String)
+    func presentAlertController(with message: String, _ title: String)
 }
 
 // MARK: - output funcs
-protocol TaskListViewOutput: AnyObject {
+protocol TasksListViewOutput: AnyObject {
     func getTasks()
     func changeTaskCompletionStatus(by id: Int)
     func openSelectedTaskCell(by id: Int)
@@ -30,10 +30,10 @@ protocol TaskTableViewCellDelegate: AnyObject {
 }
 
 // MARK: - ViewController that presents task list
-final class TaskListView: UIViewController, UISearchResultsUpdating {
+final class TasksListView: UIViewController, UISearchResultsUpdating {
 
     // MARK: - delegate property
-    var output: TaskListViewOutput?
+    var output: TasksListViewOutput?
     
     // MARK: - private properties
     private let searchController = UISearchController(searchResultsController: nil)
@@ -199,7 +199,7 @@ final class TaskListView: UIViewController, UISearchResultsUpdating {
 }
 
 // MARK: - tasks table view methods
-extension TaskListView: UITableViewDataSource, UITableViewDelegate, TaskTableViewCellDelegate {
+extension TasksListView: UITableViewDataSource, UITableViewDelegate, TaskTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // MARK: - send a request to the presenter when table data is empty to load it
@@ -250,9 +250,9 @@ extension TaskListView: UITableViewDataSource, UITableViewDelegate, TaskTableVie
 }
 
 // MARK: - send view the information and present alert
-extension TaskListView: TaskListViewInput, AlertProtocol {
-    func presentAlertController(with message: String, title: String) {
-        let controller = getAlertController(with: message, title: title)
+extension TasksListView: TasksListViewInput, AlertProtocol {
+    func presentAlertController(with message: String, _ title: String) {
+        let controller = getAlertController(withMessage: message, title: title)
         self.present(controller, animated: true)
     }
     
@@ -263,24 +263,24 @@ extension TaskListView: TaskListViewInput, AlertProtocol {
 }
 
 // MARK: - method to manage selected task dismissing and then sending a request to the presenter depending on action type by ID
-//extension TaskListView: DismissDelegate {
-//    func dismissController(withAction action: EditDataRequestCollection?, taskId id: Int?) {
-//        dismiss(animated: true) { [weak self] in
-//            guard let self = self else { return }
-//            
-//            guard let action, let id else {
-//                return
-//            }
-//            switch action {
-//            case .edit:
-//                output?.openTaskEditor(by: id)
-//            case .share:
-//                break
-//            case .remove:
-//                output?.removeTask(by: id)
-//                output?.getTasks()
-//            }
-//        }
-//    }
-//}
+extension TasksListView: DismissDelegate {
+    func dismissController(withAction action: TaskEditionRequestCollection?, taskId id: Int?) {
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            
+            guard let action, let id else {
+                return
+            }
+            switch action {
+            case .edit:
+                output?.openTaskEditor(by: id)
+            case .share:
+                break
+            case .remove:
+                output?.removeTask(by: id)
+                output?.getTasks()
+            }
+        }
+    }
+}
 

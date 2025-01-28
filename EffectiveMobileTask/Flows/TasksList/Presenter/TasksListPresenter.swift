@@ -8,15 +8,15 @@
 import Foundation
 
 // MARK: - handles requests and coordinates view and interactor
-final class TaskListPresenter {
+final class TasksListPresenter {
     
     // MARK: - private properties
-    private let interactor: TaskListInteractorInput
-    private let view: TaskListViewInput
-    private let router: TaskListRouterInput
+    private let interactor: TasksListInteractorInput
+    private let view: TasksListViewInput
+    private let router: TasksListRouterInput
     
     // MARK: - init
-    init(interactor: TaskListInteractorInput, view: TaskListViewInput, router: TaskListRouterInput) {
+    init(interactor: TasksListInteractorInput, view: TasksListViewInput, router: TasksListRouterInput) {
         self.interactor = interactor
         self.view = view
         self.router = router
@@ -24,7 +24,7 @@ final class TaskListPresenter {
 }
 
 // MARK: - handles view's requests
-extension TaskListPresenter: TaskListViewOutput {
+extension TasksListPresenter: TasksListViewOutput {
     
     // MARK: - Interactor requests
     // MARK: - send requset to interactor to get tasks list
@@ -41,7 +41,7 @@ extension TaskListPresenter: TaskListViewOutput {
             case .success:
                 break
             case .failure(let error):
-                sendError(withMessage: error.localizedDescription, title: Errors.coreData.value)
+                sendError(with: error.localizedDescription, Errors.coreData.value)
             }
         }
     }
@@ -55,7 +55,7 @@ extension TaskListPresenter: TaskListViewOutput {
             case .success:
                 break
             case .failure(let error):
-                sendError(withMessage: error.localizedDescription, title: Errors.coreData.value)
+                sendError(with: error.localizedDescription, Errors.coreData.value)
             }
         }
     }
@@ -77,9 +77,9 @@ extension TaskListPresenter: TaskListViewOutput {
     }
 }
 
-extension TaskListPresenter: TaskListInteractorOutput {
-    func sendError(withMessage: String, title: String) {
-        //
+extension TasksListPresenter: TasksListInteractorOutput {
+    func sendError(with message: String, _ title: String) {
+        view.presentAlertController(with: message, title)
     }
     
     func send(_ tasksList: [Task]) {

@@ -78,6 +78,8 @@ final class TaskTableViewCell: UITableViewCell {
     @objc private func changeCompletionStatus(_ sender: UIButton) {
         completionStatus.toggle()
         completionStatus ? setupCompletedTask() : setupTaskInProgress()
+        
+        delegate?.doCompletionChanges(at: indexPath)
     }
     
     // MARK: - special undone task setup

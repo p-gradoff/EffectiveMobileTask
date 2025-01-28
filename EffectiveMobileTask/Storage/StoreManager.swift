@@ -48,7 +48,7 @@ protocol StoreManagerOutput: AnyObject {
     func createTask(taskDescription: NSEntityDescription?, with id: Int, creationDate: String, content: String, completionStatus: Bool, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
     func fetchTask(by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void))
     func fetchTaskList(completion: @escaping ((Result<[Task], CoreDataError>) -> Void))
-    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void))
+    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
     func removeTask(by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void))
 }
 
@@ -60,7 +60,7 @@ class StoreManager: StoreManagerOutput {
     let mainContext: NSManagedObjectContext
     
     // MARK: - init
-    init(backgroundContext: NSManagedObjectContext, mainContext: NSManagedObjectContext) {
+    init(backgroundContext: NSManagedObjectContext = CoreDataManager.shared.backgroundContext, mainContext: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
         self.backgroundContext = backgroundContext
         self.mainContext = mainContext
     }
@@ -105,6 +105,7 @@ class StoreManager: StoreManagerOutput {
                 )
                 
                 try backgroundContext.save()
+                try mainContext.save()
                 
                 DispatchQueue.main.async {
                     completion(.success(()))
@@ -166,7 +167,7 @@ class StoreManager: StoreManagerOutput {
     }
     
     // MARK: - UPDATE task data and save
-    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void)) {
+    func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void)) {
         backgroundContext.perform { [weak self] in
             guard let self = self else { return }
             
@@ -191,8 +192,10 @@ class StoreManager: StoreManagerOutput {
                 }
                 
                 try backgroundContext.save()
+                try mainContext.save()
+                
                 DispatchQueue.main.async {
-                    completion(.success(task))
+                    completion(.success(()))
                 }
             } catch {
                 backgroundContext.rollback()
@@ -220,6 +223,7 @@ class StoreManager: StoreManagerOutput {
                 }
                 
                 backgroundContext.delete(task)
+                try mainContext.save()
                 
                 try backgroundContext.save()
                 DispatchQueue.main.async {
@@ -236,14 +240,16 @@ class StoreManager: StoreManagerOutput {
     
     // MARK: - delete all tasks
     func removeAllTasks(completion: @escaping (Result<Void, CoreDataError>) -> Void) {
-        backgroundContext.perform {
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
             do {
                 let fetchRequest = NSFetchRequest<Task>(entityName: TaskParameter.name.value)
                 let tasksList = try self.backgroundContext.fetch(fetchRequest)
                 
                 tasksList.forEach { self.backgroundContext.delete($0) }
                 
-                try self.backgroundContext.save()
+                try backgroundContext.save()
+                try mainContext.save()
                 
                 DispatchQueue.main.async {
                     completion(.success(()))

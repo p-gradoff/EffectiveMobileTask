@@ -7,14 +7,13 @@
 
 import Foundation
 
-// MARK: - network data model
-
-struct RawTaskList: Codable {
+// MARK: - network data models
+struct RawTasksList: Decodable {
     let todos: [RawTask]
     let total, skip, limit: Int
 }
 
-struct RawTask: Codable {
+struct RawTask: Decodable {
     var id: Int
     let todo: String
     let completed: Bool

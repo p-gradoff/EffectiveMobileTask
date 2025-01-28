@@ -31,14 +31,14 @@ final class MockStoreManagerFailure: StoreManager {
 
 // MARK: - manages mock network manager's funcs
 final class MockNetworkManagerFailure: NetworkManager {
-    override func doRequest(_ completion: @escaping (Result<RawTaskList, NetworkError>) -> Void) {
+    override func doRequest(_ completion: @escaping (Result<RawTasksList, NetworkError>) -> Void) {
         completion(.failure(.serverError))
     }
 }
 
 // MARK: - manages all test functions
 final class TaskListInteractorFailedUnit: XCTestCase {
-    var sut: TaskListInteractor!
+    var sut: TasksListInteractor!
     var mockStoreManager: StoreManager!
     
     // MARK: - setup TaskListInteractorFailedUnit
@@ -58,7 +58,7 @@ final class TaskListInteractorFailedUnit: XCTestCase {
             mainContext: coreDataStack.mainContext
         )
         
-        sut = TaskListInteractor(networkManager: mockNetworkManager, storeManager: mockStoreManager)
+        sut = TasksListInteractor(networkManager: mockNetworkManager, storeManager: mockStoreManager)
     }
 
     // MARK: - try to save empty tasks list

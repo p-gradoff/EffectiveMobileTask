@@ -19,8 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
         
         // let viewController = ViewController()
-        let taskListView = TaskListConfigurator.configureTaskListModule()
-        let rootViewController = UINavigationController(rootViewController: taskListView)
+        let tasksListView = TasksListConfigurator.configureTasksListModule()
+        let rootViewController = UINavigationController(rootViewController: tasksListView)
         self.window?.rootViewController = rootViewController
     }
 

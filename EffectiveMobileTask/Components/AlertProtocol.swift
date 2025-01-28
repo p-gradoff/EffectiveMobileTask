@@ -10,11 +10,11 @@ import UIKit
 
 // MARK: - protocol that provides access to alert controller
 protocol AlertProtocol {
-    func getAlertController(with message: String, title: String) -> UIAlertController
+    func getAlertController(withMessage message: String, title: String) -> UIAlertController
 }
 
 extension AlertProtocol {
-    func getAlertController(with message: String, title: String) -> UIAlertController {
+    func getAlertController(withMessage message: String, title: String) -> UIAlertController {
         let alertController = UIAlertController(
             title: title,
             message: message,

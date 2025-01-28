@@ -11,18 +11,18 @@ import CoreData
 
 // MARK: - manages mock network manager's funcs
 final class MockNetworkManagerSuccess: NetworkManager {
-    override func doRequest(_ completion: @escaping (Result<RawTaskList, NetworkError>) -> Void) {
-        let mockRawTaskList = RawTaskList(
+    override func doRequest(_ completion: @escaping (Result<RawTasksList, NetworkError>) -> Void) {
+        let mockRawTasksList = RawTasksList(
             todos: [RawTask.getRawTask()],
             total: 1, skip: 0, limit: 1
         )
-        completion(.success(mockRawTaskList))
+        completion(.success(mockRawTasksList))
     }
 }
 
 // MARK: - manages all test
-final class TaskListInteractorSuccessUnit: XCTestCase {
-    var sut: TaskListInteractor!
+final class TasksListInteractorSuccessUnit: XCTestCase {
+    var sut: TasksListInteractor!
     var mockStoreManager: StoreManager!
 
     // MARK: - setup TaskListInteractorSuccessUnit
@@ -42,7 +42,7 @@ final class TaskListInteractorSuccessUnit: XCTestCase {
             mainContext: coreDataStack.mainContext
         )
         
-        sut = TaskListInteractor(networkManager: mockNetworkManager, storeManager: mockStoreManager)
+        sut = TasksListInteractor(networkManager: mockNetworkManager, storeManager: mockStoreManager)
     }
 
     // MARK: - save loaded tasks list and verify it

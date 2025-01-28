@@ -10,13 +10,13 @@ import Foundation
 // MARK: - LaunchManager determines if the default task list should be loaded
 
 struct LaunchManager {
-    static let initialLaunchKey = UUID().uuidString
+    static let initialLaunchKey = "Initial Launch"
     
     // MARK: - The remote task list is loaded only on the initial launch
     static func isInitialLaunch() -> Bool {
         // UserDefaults.standard.removeObject(forKey: initialLaunchKey)
         guard let _ = UserDefaults.standard.object(forKey: initialLaunchKey) else {
-            UserDefaults.standard.set(true, forKey: initialLaunchKey)
+            UserDefaults.standard.set(false, forKey: initialLaunchKey)
             return true
         }
         return false

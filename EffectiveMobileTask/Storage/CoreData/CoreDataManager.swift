@@ -19,7 +19,6 @@ final class CoreDataManager {
     let backgroundContext: NSManagedObjectContext
     let mainContext: NSManagedObjectContext
     
-    
     // MARK: - init
     private init() {
         persistantContainer = NSPersistentContainer(name: "EffectiveMobileTask")

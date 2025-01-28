@@ -52,17 +52,27 @@ final class NetworkManagerUnit: XCTestCase {
         configuration.protocolClasses = [URLProtocolMock.self]
         let mockSession = URLSession(configuration: configuration)
         
-        // MARK: - prepare expected test data
-        let testRawTask = RawTask(id: 1, todo: "Test task", completed: false, userId: 1)
-        let expectedRawTaskList = RawTaskList(todos: [testRawTask], total: 1, skip: 0, limit: 10)
-        let mockData = try JSONEncoder().encode(expectedRawTaskList)
+        // MARK: - prepare mock data
+        let rawJSONString = """
+         {
+            "todos": [{
+                "id": 1,
+                "todo": "Test Task",
+                "completed": false,
+                "userId": 5
+            }],
+            "total": 1,
+            "skip": 0,
+            "limit": 10
+         }
+         """
+        let mockData = rawJSONString.data(using: .utf8)!
         
         // MARK: - prepare network config
         let networkManager = NetworkManager(urlSession: mockSession)
         let url = networkManager.formURL(from: NetworkConfig.baseURLString)!
         let expectation = XCTestExpectation(description: "Success Network request")
-        
-        // MARK: - prepare mock data
+
         URLProtocolMock.mockURLs[url] = (
             error: nil,
             data: mockData,
@@ -76,7 +86,8 @@ final class NetworkManagerUnit: XCTestCase {
                 // MARK: - verify taskList info
                 XCTAssertEqual(taskList.todos.count, 1)
                 XCTAssertEqual(taskList.todos.first?.id, 1)
-                XCTAssertEqual(taskList.todos.first?.todo, "Test task")
+                XCTAssertEqual(taskList.todos.first?.todo, "Test Task")
+        
                 expectation.fulfill()
             case .failure(let error):
                 XCTFail("Request should succeed, got error: \(error)")

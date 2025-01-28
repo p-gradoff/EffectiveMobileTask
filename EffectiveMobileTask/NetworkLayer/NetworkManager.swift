@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - output funcs
 protocol NetworkManagerOutput: AnyObject {
-    func doRequest(_ completion: @escaping (Result<RawTaskList, NetworkError>) -> Void)
+    func doRequest(_ completion: @escaping (Result<RawTasksList, NetworkError>) -> Void)
 }
 
 // MARK: - network errors
@@ -67,7 +67,7 @@ class NetworkManager: NetworkManagerOutput {
     }
     
     // MARK: - do request
-    func doRequest(_ completion: @escaping (Result<RawTaskList, NetworkError>) -> Void) {
+    func doRequest(_ completion: @escaping (Result<RawTasksList, NetworkError>) -> Void) {
         guard let url = formURL(from: NetworkConfig.baseURLString) else {
             completion(.failure(.urlError))
             return
@@ -91,7 +91,7 @@ class NetworkManager: NetworkManagerOutput {
             }
             
             do {
-                let rawData = try JSONDecoder().decode(RawTaskList.self, from: data)
+                let rawData = try JSONDecoder().decode(RawTasksList.self, from: data)
                 completion(.success(rawData))
             } catch {
                 completion(.failure(.parsingError))
