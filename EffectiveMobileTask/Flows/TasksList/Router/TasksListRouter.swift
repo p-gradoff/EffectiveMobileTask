@@ -30,8 +30,8 @@ final class TasksListRouter: TasksListRouterInput {
     
     // MARK: - open task creator it new task or editor if task exists
     func openTaskEditor(by id: Int?) {
-        //
+        let taskPageView = TaskPageConfigurator.configureTaskPageModule(by: id)
+                
+        rootViewController?.navigationController?.pushViewController(taskPageView, animated: true)
     }
-    
-    
 }

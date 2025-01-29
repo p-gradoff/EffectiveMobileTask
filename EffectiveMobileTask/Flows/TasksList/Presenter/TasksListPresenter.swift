@@ -77,11 +77,15 @@ extension TasksListPresenter: TasksListViewOutput {
     }
 }
 
+// MARK: - sends to the view the request
 extension TasksListPresenter: TasksListInteractorOutput {
+    
+    // MARK: - request to show alert case of error
     func sendError(with message: String, _ title: String) {
         view.presentAlertController(with: message, title)
     }
     
+    // MARK: - request to set loaded task data
     func send(_ tasksList: [Task]) {
         view.setTableData(with: tasksList)
     }

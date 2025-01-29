@@ -251,11 +251,14 @@ extension TasksListView: UITableViewDataSource, UITableViewDelegate, TaskTableVi
 
 // MARK: - send view the information and present alert
 extension TasksListView: TasksListViewInput, AlertProtocol {
+    
+    // MARK: - show error's information
     func presentAlertController(with message: String, _ title: String) {
         let controller = getAlertController(withMessage: message, title: title)
         self.present(controller, animated: true)
     }
     
+    // MARK: - set loaded data and reload tableView
     func setTableData(with data: [Task]) {
         tableData = data
         tableView.reloadData()

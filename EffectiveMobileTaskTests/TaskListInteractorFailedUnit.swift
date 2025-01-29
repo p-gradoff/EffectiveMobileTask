@@ -9,6 +9,7 @@ import XCTest
 import CoreData
 @testable import EffectiveMobileTask
 
+
 // MARK: - mock store manager child that returns errors
 final class MockStoreManagerFailure: StoreManager {
     override func createTask(taskDescription: NSEntityDescription?, with id: Int, creationDate: String, content: String, completionStatus: Bool, completion: @escaping ((Result<Void, EffectiveMobileTask.CoreDataError>) -> Void)) {
@@ -20,7 +21,7 @@ final class MockStoreManagerFailure: StoreManager {
         completion(.failure(.fetchError))
     }
     
-    override func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Task, CoreDataError>) -> Void)) {
+    override func updateTask(with change: TaskChange, by id: Int, completion: @escaping ((Result<Void, CoreDataError>) -> Void)) {
         completion(.failure(.updateError))
     }
     

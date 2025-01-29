@@ -36,6 +36,7 @@ final class SelectedTaskView: UIViewController {
     private var selectedTask: Task!
     private var taskEditionTableData: [TaskEdition] = []
     
+    // MARK: - UI properties
     private let visualEffectView: VisualEffectView = {
         $0.blurRadius = 10
         $0.colorTint = .mainTheme
@@ -122,11 +123,6 @@ final class SelectedTaskView: UIViewController {
         setupView()
     }
     
-//    override func viewIsAppearing(_ animated: Bool) {
-//        super.viewIsAppearing(animated)
-//        updateViews()
-//    }
-    
     // MARK: - views initialization
     private func setupView() {
         canvasView.addSubview(labelStack)
@@ -159,13 +155,6 @@ final class SelectedTaskView: UIViewController {
             $0.height.equalTo(132)
         }
     }
-    
-//    // MARK: - updates the data, if any
-//    private func updateViews() {
-//        titleLabel.text = selectedTask.title
-//        descriptionLabel.text = selectedTask.content
-//        dateLabel.text = selectedTask.creationDate
-//    }
 }
 
 // MARK: - menu tableView methods
@@ -226,7 +215,7 @@ extension SelectedTaskView: SelectedTaskViewInput, AlertProtocol {
     
     // MARK: - set received selected task data
     func setSelectedTask(_ task: Task) {
-        // selectedTask = task
+        selectedTask = task
         titleLabel.text = task.title
         descriptionLabel.text = task.content
         dateLabel.text = task.creationDate

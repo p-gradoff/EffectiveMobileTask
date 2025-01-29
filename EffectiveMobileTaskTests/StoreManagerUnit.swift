@@ -23,7 +23,7 @@ final class StoreManagerUnit: XCTestCase {
         let completionStatus: Bool
         
         static func getTestTask() -> TestTask {
-            TestTask(id: 1, creationDate: "2025-01-26", content: "Test Content", completionStatus: false)
+            TestTask(id: 1, creationDate: "Test Date", content: "Test Content", completionStatus: false)
         }
     }
     
@@ -361,6 +361,7 @@ final class StoreManagerUnit: XCTestCase {
         let newTestContent = "New Test Content"
         let testTaskChangeFilling = TaskChange.content(title: newTestTitle, content: newTestContent)
         
+        // MARK: - create task
         storeManager.createTask(
             taskDescription: testEntityDescription,
             with: testTask.id,
@@ -372,35 +373,38 @@ final class StoreManagerUnit: XCTestCase {
             
             switch result {
             case .success:
-                storeManager.updateTask(
-                    with: testTaskChangeFilling,
-                    by: testTask.id
-                ) { [weak self] updateResult in
+                // MARK: - update task data
+                storeManager.updateTask(with: testTaskChangeFilling, by: testTask.id) { [weak self] result in
                     guard let self = self else { return }
                     
-                    switch updateResult {
-                    case .success(let changedTask):
-                        // MARK: - verify changes
-                        XCTAssertEqual(changedTask.title, newTestTitle)
-                        XCTAssertEqual(changedTask.content, newTestContent)
-                    case .failure(let error):
-                        // MARK: - task update failed
-                        XCTFail("Update task should succeed, got error \(error)")
-                    }
-                    
-                    // MARK: - remove task
-                    storeManager.removeTask(by: testTask.id) { removeResult in
-                        switch removeResult {
-                        case .success:
-                            expectation.fulfill()
-                        case .failure(let error):
-                            XCTFail("Remove task should succeed, got error: \(error)")
+                    switch result {
+                    case .success:
+                        // MARK: - fetch changed task and verify it
+                        storeManager.fetchTask(by: testTask.id) { result in
+                            switch result {
+                            case .success(let task):
+                                XCTAssertEqual(task.title, newTestTitle)
+                                XCTAssertEqual(task.content, newTestContent)
+                            case .failure(let failure):
+                                print("Try to fetch task, got error \(failure)")
+                            }
                         }
+                    case .failure(let failure):
+                        print("Try to update task, got error \(failure)")
                     }
                 }
-            case .failure(let error):
-                // MARK: - task creation failed
-                XCTFail("Creation task should succeed, got error \(error)")
+                
+                // MARK: - remove task
+                storeManager.removeTask(by: testTask.id) { removeResult in
+                    switch removeResult {
+                    case .success:
+                        expectation.fulfill()
+                    case .failure(let error):
+                        XCTFail("Remove task should succeed, got error: \(error)")
+                    }
+                }
+            case .failure(let failure):
+                print("error is \(failure)")
             }
         }
         

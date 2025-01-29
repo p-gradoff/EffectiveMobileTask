@@ -36,6 +36,8 @@ extension SelectedTaskPresenter: SelectedTaskViewOutput {
 
 // MARK: - handles requests from the interactor
 extension SelectedTaskPresenter: SelectedTaskInteractorOutput {
+    
+    // MARK: - request to show alert case of error
     func sendError(with message: String, _ title: String) {
         view.presentAlertController(with: message, title)
     }

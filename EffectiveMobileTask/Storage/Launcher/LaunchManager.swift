@@ -14,7 +14,6 @@ struct LaunchManager {
     
     // MARK: - The remote task list is loaded only on the initial launch
     static func isInitialLaunch() -> Bool {
-        // UserDefaults.standard.removeObject(forKey: initialLaunchKey)
         guard let _ = UserDefaults.standard.object(forKey: initialLaunchKey) else {
             UserDefaults.standard.set(false, forKey: initialLaunchKey)
             return true
