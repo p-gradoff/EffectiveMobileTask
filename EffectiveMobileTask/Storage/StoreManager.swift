@@ -223,9 +223,9 @@ class StoreManager: StoreManagerOutput {
                 }
                 
                 backgroundContext.delete(task)
-                try mainContext.save()
                 
                 try backgroundContext.save()
+                try mainContext.save()
                 DispatchQueue.main.async {
                     completion(.success(()))
                 }
