@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3718B4512D4AAACF00061B97 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3718B4502D4AAACF00061B97 /* README.md */; };
 		4B9021AC253DF06732A2C3D9 /* libPods-EffectiveMobileTaskTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6588E78BB8B7A6709269349F /* libPods-EffectiveMobileTaskTests.a */; };
 		9D6A1E749B07D1B102D962E0 /* libPods-EffectiveMobileTask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C62C612D4D3DEC30AD8238 /* libPods-EffectiveMobileTask.a */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		0DABAE4FA14C07A8BE1AF4AC /* Pods-EffectiveMobileTaskTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EffectiveMobileTaskTests.release.xcconfig"; path = "Target Support Files/Pods-EffectiveMobileTaskTests/Pods-EffectiveMobileTaskTests.release.xcconfig"; sourceTree = "<group>"; };
 		144CC64289EBC4D4EB75D6BC /* libPods-EffectiveMobileTask-EffectiveMobileTaskUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EffectiveMobileTask-EffectiveMobileTaskUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3718B4502D4AAACF00061B97 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		374AF5042D4328EB00A55FFE /* EffectiveMobileTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EffectiveMobileTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		374AF51D2D4328EC00A55FFE /* EffectiveMobileTaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EffectiveMobileTaskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42E23B078AE44FF0277C6A59 /* Pods-EffectiveMobileTaskTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EffectiveMobileTaskTests.debug.xcconfig"; path = "Target Support Files/Pods-EffectiveMobileTaskTests/Pods-EffectiveMobileTaskTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				374AF5052D4328EB00A55FFE /* Products */,
 				9FCBE2D75A3FACFD0B6B2C75 /* Pods */,
 				46D40C1F6D644E72958F23FE /* Frameworks */,
+				3718B4502D4AAACF00061B97 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -229,6 +232,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3718B4512D4AAACF00061B97 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
