@@ -1,4 +1,4 @@
-# Effective Mobile
+# Simply Clever
 
 Наш минимализм - ваша продуктивность.
 
